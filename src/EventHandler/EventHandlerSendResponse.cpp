@@ -24,8 +24,10 @@ EnumSesStatus EventHandler::sendResponse(ClientSession& session) {
 
     if (sent < 0) {
         return WRITE_CONTINUE;
+    } else if (sent == 0) {
+        return WRITE_COMPLETE;
     }
-
+    
     // 전송된 만큼 버퍼에서 제거
     writeBuffer.erase(0, sent);
     EnumSesStatus status = writeBuffer.empty() ? WRITE_COMPLETE : WRITE_CONTINUE;
